@@ -6,6 +6,7 @@ import 'package:pacman/entities/ghost.dart';
 import 'package:pacman/entities/player.dart';
 import 'package:pacman/entities/powerup.dart';
 import 'package:pacman/interfaces/pacman_interface.dart';
+import 'package:pacman/utils.dart';
 
 class Game extends StatefulWidget {
   const Game({Key? key}) : super(key: key);
@@ -18,13 +19,17 @@ class _GameState extends State<Game>
     with WidgetsBindingObserver
     implements GameListener {
   bool showGameOver = false;
+  int mapWidth = 31*16;
+  int mapHeight = 16*16;
 
   late GameController _controller;
+  late int maxCoins;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     _controller = GameController()..addListener(this);
+    maxCoins = 178;
     super.initState();
   }
 
@@ -50,6 +55,18 @@ class _GameState extends State<Game>
 
   @override
   Widget build(BuildContext context) {
+    TiledWorldMap map = TiledWorldMap(
+      'tiles/map.json',
+      forceTileSize: const Size(16, 16),
+      objectsBuilder: {
+        'coin': (TiledObjectProperties properties) => Coin(properties.position),
+        'powerup': (TiledObjectProperties properties) =>
+            Powerup(properties.position),
+        'enemy': (TiledObjectProperties properties) =>
+            Ghost(properties.position),
+      },
+    );
+
     return BonfireTiledWidget(
       gameController: _controller,
       cameraConfig: CameraConfig(
@@ -58,21 +75,19 @@ class _GameState extends State<Game>
       ),
       joystick: Joystick(
         directional: JoystickDirectional(),
+        actions: [
+          JoystickAction(
+            actionId: 1,
+            size: 50,
+            align: JoystickActionAlign.TOP_RIGHT,
+            margin: const EdgeInsets.only(top: 32, right: 32),
+          )
+        ]
       ),
-      map: TiledWorldMap(
-        'tiles/map.json',
-        forceTileSize: const Size(16, 16),
-        objectsBuilder: {
-          'coin': (TiledObjectProperties properties) =>
-              Coin(properties.position),
-          'powerup': (TiledObjectProperties properties) =>
-              Powerup(properties.position),
-          'enemy': (TiledObjectProperties properties) =>
-              Ghost(properties.position),
-        },
-      ),
-      player: Pacman(Vector2(512, 272)),
+      map: map,
+      player: Pacman(Vector2(32, 32)),
       interface: PacmanInterface(),
+      colorFilter: GameColorFilter(),
       background: BackgroundColorGame(
         const Color.fromARGB(255, 109, 6, 115),
       ),
@@ -91,48 +106,12 @@ class _GameState extends State<Game>
     );
   }
 
-  void _showDialogGameOver() {
+  void _showDialogGameOver(String text) {
     setState(() {
       showGameOver = true;
     });
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent),
-                ),
-                onPressed: playAgain,
-                child: const Text(
-                  "Play again",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Normal',
-                    fontSize: 20.0,
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void playAgain() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const Game(),
-      ),
-      (route) => false,
-    );
+    Utils.showGameOverDialog(context, text);
   }
 
   @override
@@ -140,11 +119,35 @@ class _GameState extends State<Game>
 
   @override
   void updateGame() {
-    if (_controller.player != null && _controller.player?.isDead == true) {
-      if (!showGameOver) {
-        showGameOver = true;
-        _showDialogGameOver();
+    Player? player = _controller.player;
+
+    if (player != null) {
+      bool collectedAllCoins = (player as Pacman).coins == maxCoins;
+      if (player.isDead == true || collectedAllCoins) {
+        if (!showGameOver) {
+          _showDialogGameOver(collectedAllCoins ? "Congratulations! You have collected all coins" : "Game Over!");
+        }
       }
+    }
+
+    for (GameComponent entity in _controller.livingEnemies ?? const Iterable.empty()) {
+      keepEntityInsideMap(entity);
+    }
+
+    keepEntityInsideMap(player as GameComponent);
+  }
+
+  void keepEntityInsideMap(GameComponent entity) {
+    if (entity.x > mapWidth) {
+      entity.x = 0;
+    } else if (entity.x < 0) {
+      entity.x = mapWidth - 17;
+    }
+
+    if (entity.y > mapHeight) {
+      entity.y = 0;
+    } else if (entity.y < 0) {
+      entity.y = mapHeight - 17;
     }
   }
 }

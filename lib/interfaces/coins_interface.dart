@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:pacman/entities/player.dart';
+import 'package:pacman/game.dart';
 
 class CoinInterface extends InterfaceComponent {
   int coins = 0;
@@ -21,7 +22,7 @@ class CoinInterface extends InterfaceComponent {
   }
 
   @override
-  void render(Canvas c) {
+  void render(Canvas canvas) {
     const textStyle = TextStyle(
       color: Colors.white,
       fontSize: 24,
@@ -45,6 +46,6 @@ class CoinInterface extends InterfaceComponent {
     var xCenter = (size.x - textPainter.width) / 2;
     var yCenter = (size.y - textPainter.height) / 2;
 
-    textPainter.paint(c, Offset(xCenter, yCenter));
+    textPainter.paint(canvas, Offset(xCenter, yCenter));
   }
 }

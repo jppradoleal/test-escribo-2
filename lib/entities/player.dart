@@ -1,5 +1,7 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/material.dart';
 import 'package:pacman/spritesheets/pacman_spritesheet.dart';
+import 'package:pacman/utils.dart';
 
 class Pacman extends SimplePlayer with ObjectCollision {
   bool isInvencible = false;
@@ -25,6 +27,15 @@ class Pacman extends SimplePlayer with ObjectCollision {
   }
 
   @override
+  void joystickAction(JoystickActionEvent event) {
+    if (event.id == 1 && event.event == ActionEvent.DOWN) {
+      Utils.playAgain(context);
+    }
+
+    super.joystickAction(event);
+  }
+
+  @override
   void die() {
     super.die();
     removeFromParent();
@@ -37,12 +48,17 @@ class Pacman extends SimplePlayer with ObjectCollision {
     }
   }
 
-  void triggerPowerUp() {
+  void triggerPowerUp(GameComponent powerup) {
+    if (isInvencible) return;
+
+    powerup.removeFromParent();
     isInvencible = true;
+    gameRef.colorFilter?.animateTo(Colors.purple);
     Future.delayed(
       const Duration(seconds: 5),
       () {
         isInvencible = false;
+        gameRef.colorFilter?.animateTo(Colors.transparent);
       },
     );
   }

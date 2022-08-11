@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
-import 'package:pacman/game.dart';
 import 'package:pacman/menu.dart';
 
 void main() {

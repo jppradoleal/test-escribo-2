@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flame/flame.dart';
 import 'package:pacman/game.dart';
 
 class Menu extends StatefulWidget {
@@ -16,11 +13,8 @@ class _MenuState extends State<Menu> {
   bool showSplash = true;
   int currentPosition = 0;
 
-  late Timer _timer;
-
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
 

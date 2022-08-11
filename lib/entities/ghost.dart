@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:pacman/entities/player.dart';
 import 'package:pacman/spritesheets/enemy_spritesheet.dart';
@@ -57,7 +55,7 @@ class Ghost extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
   }
 
   void attack() {
-    simpleAttackMelee(damage: 1, size: Vector2(16, 16), interval: 0);
+    simpleAttackMelee(damage: 1, size: Vector2(8, 8), interval: 0);
   }
 
   @override
