@@ -28,7 +28,7 @@ class CoinInterface extends InterfaceComponent {
     );
 
     TextSpan textSpan = TextSpan(
-      text: "Coins: $coins",
+      text: 'Coins: $coins',
       style: textStyle
     );
 
