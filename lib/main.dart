@@ -2,6 +2,7 @@ import 'package:bonfire/tiled/model/tiled_object_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:pacman/entities/ghost.dart';
 import 'package:pacman/entities/player.dart';
 import 'package:pacman/entities/coin.dart';
 import 'package:pacman/entities/powerup.dart';
@@ -40,7 +41,7 @@ class Game extends StatelessWidget {
     return BonfireTiledWidget(
       cameraConfig: CameraConfig(
         moveOnlyMapArea: false,
-        zoom: 1.5,
+        zoom: 1.2,
       ),
       joystick: Joystick(
         directional: JoystickDirectional(),
@@ -51,10 +52,12 @@ class Game extends StatelessWidget {
         objectsBuilder: {
           'coin': (TiledObjectProperties properties) => Coin(properties.position),
           'powerup': (TiledObjectProperties properties) => Powerup(properties.position),
+          'enemy': (TiledObjectProperties properties) => Ghost(properties.position),
         },
       ),
-      player: Pacman(Vector2(464, 224)),
+      player: Pacman(Vector2(512, 272)),
       interface: PacmanInterface(),
+      colorFilter: GameColorFilter(color: Colors.purple),
     );
   }
 }

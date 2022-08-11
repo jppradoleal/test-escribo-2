@@ -1,10 +1,10 @@
 import 'package:bonfire/bonfire.dart';
 
-class PacmanSpriteSheet {
+class EnemySpriteSheet {
   static Future<SpriteAnimation> get run => SpriteAnimation.load(
-        'sprites/ball.png',
+        'sprites/enemy.png',
         SpriteAnimationData.sequenced(
-          amount: 5,
+          amount: 4,
           stepTime: 0.1,
           textureSize: Vector2(16, 16),
         ),
@@ -14,6 +14,5 @@ class PacmanSpriteSheet {
       SimpleDirectionAnimation(
         idleRight: run,
         runRight: run,
-        runDown: run,
       );
 }

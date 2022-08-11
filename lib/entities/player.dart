@@ -25,6 +25,12 @@ class Pacman extends SimplePlayer with ObjectCollision {
   }
 
   @override
+  void die() {
+    super.die();
+    removeFromParent();
+  }
+
+  @override
   void receiveDamage(AttackFromEnum attacker, double damage, identify) {
     if (!isInvencible) {
       super.receiveDamage(attacker, damage, identify);
@@ -34,7 +40,7 @@ class Pacman extends SimplePlayer with ObjectCollision {
   void triggerPowerUp() {
     isInvencible = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 5),
       () {
         isInvencible = false;
       },
