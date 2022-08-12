@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:pacman/entities/player.dart';
+import 'package:pacman/entities/cookieman.dart';
 import 'package:pacman/spritesheets/powerup_spritesheet.dart';
 
 class Powerup extends GameDecoration with Sensor {
@@ -12,7 +12,7 @@ class Powerup extends GameDecoration with Sensor {
 
   @override
   void onContact(GameComponent component) {
-    if (component is Pacman) {
+    if (component is Cookieman) {
       component.triggerPowerUp(this);
     }
   }

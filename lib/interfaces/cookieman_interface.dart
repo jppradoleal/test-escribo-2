@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:pacman/interfaces/coins_interface.dart';
 
-class PacmanInterface extends GameInterface {
+class CookiemanInterface extends GameInterface {
   @override
   Future<void>? onLoad() {
     add(CoinInterface());

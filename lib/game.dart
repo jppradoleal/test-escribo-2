@@ -1,11 +1,14 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire/tiled/model/tiled_object_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:pacman/entities/coin.dart';
-import 'package:pacman/entities/ghost.dart';
-import 'package:pacman/entities/player.dart';
+import 'package:pacman/entities/candleboy.dart';
+import 'package:pacman/entities/cookieman.dart';
 import 'package:pacman/entities/powerup.dart';
-import 'package:pacman/interfaces/pacman_interface.dart';
+import 'package:pacman/entities/sugar.dart';
+import 'package:pacman/interfaces/cookieman_interface.dart';
 import 'package:pacman/soundboard.dart';
 import 'package:pacman/utils.dart';
 
@@ -19,18 +22,21 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game>
     with WidgetsBindingObserver
     implements GameListener {
+  final Random _rnd = Random();
   bool showGameOver = false;
-  int mapWidth = 31 * 16;
   int mapHeight = 16 * 16;
+  int mapWidth = 31 * 16;
+  int sugarAmount = 0;
+  int maxSugar = 4;
 
   late GameController _controller;
-  late int maxCoins;
+  late int maxScore;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     _controller = GameController()..addListener(this);
-    maxCoins = 179;
+    maxScore = 0;
     Soundboard.playBGM();
     super.initState();
   }
@@ -39,12 +45,15 @@ class _GameState extends State<Game>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        Soundboard.playBGM();
         break;
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.paused:
+        Soundboard.stopBGM();
         break;
       case AppLifecycleState.detached:
+        Soundboard.stopBGM();
         break;
     }
   }
@@ -62,11 +71,12 @@ class _GameState extends State<Game>
       'tiles/map.json',
       forceTileSize: const Size(16, 16),
       objectsBuilder: {
-        'coin': (TiledObjectProperties properties) => Coin(properties.position),
+        'coin': (TiledObjectProperties properties) =>
+            spawnScorePoints(properties.position),
         'powerup': (TiledObjectProperties properties) =>
             Powerup(properties.position),
         'enemy': (TiledObjectProperties properties) =>
-            Ghost(properties.position),
+            CandleBoy(properties.position),
       },
     );
 
@@ -86,8 +96,8 @@ class _GameState extends State<Game>
         )
       ]),
       map: map,
-      player: Pacman(Vector2(32, 32)),
-      interface: PacmanInterface(),
+      player: Cookieman(Vector2(32, 32)),
+      interface: CookiemanInterface(),
       colorFilter: GameColorFilter(),
       background: BackgroundColorGame(
         const Color.fromARGB(255, 109, 6, 115),
@@ -107,6 +117,16 @@ class _GameState extends State<Game>
     );
   }
 
+  GameDecoration spawnScorePoints(Vector2 position) {
+    if (_rnd.nextInt(10) > 5 && sugarAmount <= maxSugar) {
+      maxScore += 10;
+      sugarAmount++;
+      return Sugar(position);
+    }
+    maxScore += 1;
+    return Coin(position);
+  }
+
   void _showDialogGameOver(String text) {
     setState(() {
       showGameOver = true;
@@ -123,7 +143,7 @@ class _GameState extends State<Game>
     Player? player = _controller.player;
 
     if (player != null) {
-      bool collectedAllCoins = (player as Pacman).coins == maxCoins;
+      bool collectedAllCoins = (player as Cookieman).coins == maxScore;
       if (player.isDead == true || collectedAllCoins) {
         if (!showGameOver) {
           _showDialogGameOver(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
-import 'package:pacman/entities/player.dart';
+import 'package:pacman/entities/cookieman.dart';
 import 'package:pacman/game.dart';
 
 class CoinInterface extends InterfaceComponent {
@@ -15,7 +15,7 @@ class CoinInterface extends InterfaceComponent {
   @override
   void update(double dt) {
     if (gameRef.player != null) {
-      Pacman player = gameRef.player as Pacman;
+      Cookieman player = gameRef.player as Cookieman;
       coins = player.coins;
     }
     super.update(dt);

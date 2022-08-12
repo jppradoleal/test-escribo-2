@@ -1,17 +1,17 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:pacman/entities/player.dart';
+import 'package:pacman/entities/cookieman.dart';
 import 'package:pacman/soundboard.dart';
-import 'package:pacman/spritesheets/enemy_spritesheet.dart';
+import 'package:pacman/spritesheets/candle_spritesheet.dart';
 
-class Ghost extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
+class CandleBoy extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
   bool canMove = false;
   final Vector2 initialPosition;
 
-  Ghost(this.initialPosition)
+  CandleBoy(this.initialPosition)
       : super(
           position: initialPosition,
           size: Vector2(16, 16),
-          animation: EnemySpriteSheet.simpleDirectionAnimation,
+          animation: CandleSpriteSheet.simpleDirectionAnimation,
           life: 1,
           speed: 15
         ) {
@@ -35,7 +35,7 @@ class Ghost extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
         runRandomly(dt);
       },
       observed: () {
-        Pacman player = gameRef.player as Pacman;
+        Cookieman player = gameRef.player as Cookieman;
 
         if (player.isInvencible) {
           runRandomly(dt);
@@ -63,7 +63,7 @@ class Ghost extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
   @override
   bool onCollision(GameComponent component, bool active) {
     if (component is Player) {
-      Pacman player = component as Pacman;
+      Cookieman player = component as Cookieman;
       if (player.isInvencible) {
         die();
         return false;

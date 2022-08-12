@@ -1,8 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 
-class PacmanSpriteSheet {
+class CookiemanSpriteSheet {
   static Future<SpriteAnimation> get run => SpriteAnimation.load(
-        'sprites/ball.png',
+        'sprites/cookieman.png',
         SpriteAnimationData.sequenced(
           amount: 5,
           stepTime: 0.1,
@@ -14,6 +14,5 @@ class PacmanSpriteSheet {
       SimpleDirectionAnimation(
         idleRight: run,
         runRight: run,
-        runDown: run,
       );
 }

@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 
-class EnemySpriteSheet {
+class CandleSpriteSheet {
   static Future<SpriteAnimation> get run => SpriteAnimation.load(
         'sprites/enemy.png',
         SpriteAnimationData.sequenced(

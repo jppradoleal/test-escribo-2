@@ -1,11 +1,11 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:pacman/entities/cookieman.dart';
-import 'package:pacman/spritesheets/coin_spritesheet.dart';
+import 'package:pacman/spritesheets/sugar_spritesheet.dart';
 
-class Coin extends GameDecoration with Sensor {
-  Coin(Vector2 position)
+class Sugar extends GameDecoration with Sensor {
+  Sugar(Vector2 position)
       : super.withAnimation(
-          animation: CoinSpriteSheet.idle,
+          animation: SugarSpriteSheet.idle,
           position: position,
           size: Vector2(16, 16),
         );
@@ -14,7 +14,7 @@ class Coin extends GameDecoration with Sensor {
   void onContact(GameComponent component) {
     if (component is Player) {
       removeFromParent();
-      (component as Cookieman).collectCoin();
+      (component as Cookieman).collectSugar();
     }
   }
 }

@@ -1,18 +1,18 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:pacman/soundboard.dart';
-import 'package:pacman/spritesheets/pacman_spritesheet.dart';
+import 'package:pacman/spritesheets/cookieman_spritesheet.dart';
 import 'package:pacman/utils.dart';
 
-class Pacman extends SimplePlayer with ObjectCollision {
+class Cookieman extends SimplePlayer with ObjectCollision {
   bool isInvencible = false;
   int coins = 0;
 
-  Pacman(Vector2 position)
+  Cookieman(Vector2 position)
       : super(
             position: position,
             size: Vector2(16, 16),
-            animation: PacmanSpriteSheet.simpleDirectionAnimation,
+            animation: CookiemanSpriteSheet.simpleDirectionAnimation,
             life: 1) {
     setupCollision(
       CollisionConfig(
@@ -68,5 +68,18 @@ class Pacman extends SimplePlayer with ObjectCollision {
 
   void collectCoin() {
     coins += 1;
+  }
+
+  void collectSugar() {
+    coins += 10;
+    double boostSpeedAmount = speed * .5;
+    speed += boostSpeedAmount;
+
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        speed -= boostSpeedAmount;
+      },
+    );
   }
 }
