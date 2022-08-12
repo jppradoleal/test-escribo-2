@@ -79,6 +79,7 @@ class _GameState extends State<Game>
       joystick: Joystick(directional: JoystickDirectional(), actions: [
         JoystickAction(
           actionId: 1,
+          sprite: Sprite.load('sprites/retry.png'),
           size: 50,
           align: JoystickActionAlign.TOP_RIGHT,
           margin: const EdgeInsets.only(top: 32, right: 32),

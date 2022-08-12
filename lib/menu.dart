@@ -59,6 +59,7 @@ class _MenuState extends State<Menu> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset('assets/images/splash.png'),
             Column(
               children: const [
                 Text('Cookie-man against', style: headerStyle),
