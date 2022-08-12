@@ -6,6 +6,7 @@ import 'package:pacman/entities/ghost.dart';
 import 'package:pacman/entities/player.dart';
 import 'package:pacman/entities/powerup.dart';
 import 'package:pacman/interfaces/pacman_interface.dart';
+import 'package:pacman/soundboard.dart';
 import 'package:pacman/utils.dart';
 
 class Game extends StatefulWidget {
@@ -19,8 +20,8 @@ class _GameState extends State<Game>
     with WidgetsBindingObserver
     implements GameListener {
   bool showGameOver = false;
-  int mapWidth = 31*16;
-  int mapHeight = 16*16;
+  int mapWidth = 31 * 16;
+  int mapHeight = 16 * 16;
 
   late GameController _controller;
   late int maxCoins;
@@ -29,7 +30,8 @@ class _GameState extends State<Game>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     _controller = GameController()..addListener(this);
-    maxCoins = 178;
+    maxCoins = 179;
+    Soundboard.playBGM();
     super.initState();
   }
 
@@ -50,6 +52,7 @@ class _GameState extends State<Game>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    Soundboard.stopBGM();
     super.dispose();
   }
 
@@ -73,17 +76,14 @@ class _GameState extends State<Game>
         moveOnlyMapArea: false,
         zoom: 1.2,
       ),
-      joystick: Joystick(
-        directional: JoystickDirectional(),
-        actions: [
-          JoystickAction(
-            actionId: 1,
-            size: 50,
-            align: JoystickActionAlign.TOP_RIGHT,
-            margin: const EdgeInsets.only(top: 32, right: 32),
-          )
-        ]
-      ),
+      joystick: Joystick(directional: JoystickDirectional(), actions: [
+        JoystickAction(
+          actionId: 1,
+          size: 50,
+          align: JoystickActionAlign.TOP_RIGHT,
+          margin: const EdgeInsets.only(top: 32, right: 32),
+        )
+      ]),
       map: map,
       player: Pacman(Vector2(32, 32)),
       interface: PacmanInterface(),
@@ -125,12 +125,17 @@ class _GameState extends State<Game>
       bool collectedAllCoins = (player as Pacman).coins == maxCoins;
       if (player.isDead == true || collectedAllCoins) {
         if (!showGameOver) {
-          _showDialogGameOver(collectedAllCoins ? "Congratulations! You have collected all coins" : "Game Over!");
+          _showDialogGameOver(
+            collectedAllCoins
+                ? 'assets/images/play-again.png'
+                : 'assets/images/game-over.png',
+          );
         }
       }
     }
 
-    for (GameComponent entity in _controller.livingEnemies ?? const Iterable.empty()) {
+    for (GameComponent entity
+        in _controller.livingEnemies ?? const Iterable.empty()) {
       keepEntityInsideMap(entity);
     }
 

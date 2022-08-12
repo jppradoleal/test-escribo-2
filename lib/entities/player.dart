@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:pacman/soundboard.dart';
 import 'package:pacman/spritesheets/pacman_spritesheet.dart';
 import 'package:pacman/utils.dart';
 
@@ -38,6 +39,7 @@ class Pacman extends SimplePlayer with ObjectCollision {
   @override
   void die() {
     super.die();
+    Soundboard.killPlayer();
     removeFromParent();
   }
 
@@ -52,6 +54,7 @@ class Pacman extends SimplePlayer with ObjectCollision {
     if (isInvencible) return;
 
     powerup.removeFromParent();
+    Soundboard.powerUp();
     isInvencible = true;
     gameRef.colorFilter?.animateTo(Colors.purple);
     Future.delayed(

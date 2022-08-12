@@ -11,7 +11,7 @@ class Utils {
     );
   }
 
-  static void showGameOverDialog(BuildContext context, String text) {
+  static void showGameOverDialog(BuildContext context, String imageAsset) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -20,14 +20,7 @@ class Utils {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Normal',
-                  fontSize: 32.0,
-                ),
-              ),
+              Image.asset(imageAsset),
               const SizedBox(
                 height: 32,
               ),

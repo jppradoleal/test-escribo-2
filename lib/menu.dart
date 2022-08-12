@@ -1,6 +1,7 @@
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pacman/game.dart';
+import 'package:pacman/soundboard.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -14,7 +15,14 @@ class _MenuState extends State<Menu> {
   int currentPosition = 0;
 
   @override
+  void initState() {
+    Soundboard.playBGM();
+    super.initState();
+  }
+
+  @override
   void dispose() {
+    Soundboard.stopBGM();
     super.dispose();
   }
 

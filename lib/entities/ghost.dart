@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:pacman/entities/player.dart';
+import 'package:pacman/soundboard.dart';
 import 'package:pacman/spritesheets/enemy_spritesheet.dart';
 
 class Ghost extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
@@ -47,6 +48,7 @@ class Ghost extends SimpleEnemy with ObjectCollision, AutomaticRandomMovement {
 
   @override
   void die() {
+    Soundboard.killEnemy();
     position = initialPosition;
   }
 

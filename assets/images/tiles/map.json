@@ -1,4 +1,5 @@
-{ "compressionlevel":-1,
+{ "backgroundcolor":"#6d0673",
+ "compressionlevel":-1,
  "editorsettings":
     {
      "export":
@@ -2217,8 +2218,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":240,
-                 "y":160
+                 "x":244,
+                 "y":153
                 }, 
                 {
                  "class":"",
@@ -2228,8 +2229,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":256,
-                 "y":160
+                 "x":269,
+                 "y":172.666666666667
                 }, 
                 {
                  "class":"",
@@ -2239,7 +2240,7 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":240,
+                 "x":227,
                  "y":176
                 }],
          "opacity":1,
