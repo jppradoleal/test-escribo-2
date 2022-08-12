@@ -1,4 +1,5 @@
 ![Gameplay do jogo](./assets/images/gameplay.gif)
+
 ![3 velas seguindo um cookie com boca](./assets/images/splash.png) 
 # Cookie-man against Candle boys. 🍪🕯
 ## Teste 2 - Escribo 
