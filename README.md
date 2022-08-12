@@ -1,5 +1,5 @@
+![Gameplay do jogo](./assets/images/gameplay.gif)
 ![3 velas seguindo um cookie com boca](./assets/images/splash.png) 
-
 # Cookie-man against Candle boys. 🍪🕯
 ## Teste 2 - Escribo 
 
@@ -24,6 +24,7 @@ Me baseei bastante nas documentações do [Flame](https://docs.flame-engine.org/
 * Ao passar por cima das moedas, nem sempre elas são coletadas.
 * Algumas vezes o player trava nas paredes.
 * Algumas vezes a música não volta a tocar quando é clicado reset ou jogar novamente.
+* A música continua tocando quando o jogo está em background.
 * Na versão web a música não funciona.
 * Na versão web o efeito de neon(transparência no spritesheet) não funciona.
 
@@ -44,4 +45,4 @@ Pelo tempo gasto no aprendizado da lib, também não consegui implementar a part
 * O objetivo é coletar todas as moedas.
 * Ao obter a **gema laranja**, por 5 segundos os inimigos deixam de seguir e passam a correr aleatóriamente, tocá-los faz com que eles voltem ao centro da fase.
 * Os buracos nas laterais permitem sair pelo lado inverso, como teleportes.
-* Os açucares dão contam como 10 moedas e aumentam a velocidade por 1s.
+* Os açucares contam como 10 moedas e aumentam a velocidade por 1s.
